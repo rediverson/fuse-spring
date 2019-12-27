@@ -1,0 +1,39 @@
+:image-registry: registry.access.redhat.com
+:image-prefix: /fuse7/
+:image-name-version: fuse-java-openshift:1.5
+:openshift-project: $MY_OPENSHIFT_PROJECT
+
+= Fuse using Spring Boot
+
+== Overview
+Simple spring boot app which uses camel java dsl. When running see log for ouput.  Created using maven archetype:
+[source,bash,options="nowrap",subs="attributes+"]
+----
+mvn org.apache.maven.plugins:maven-archetype-plugin:2.4:generate \
+  -DarchetypeCatalog=https://maven.repository.redhat.com/ga/io/fabric8/archetypes/archetypes-catalog/2.2.0.fuse-750020-redhat-00002/archetypes-catalog-2.2.0.fuse-750020-redhat-00002-archetype-catalog.xml \
+  -DarchetypeGroupId=org.jboss.fuse.fis.archetypes \
+  -DarchetypeArtifactId=spring-boot-camel-archetype \
+  -DarchetypeVersion=2.2.0.fuse-750020-redhat-00002
+----
+
+NOTE: For official instructions please see the fuse instruction manual.
+
+== Running on an OpenShift cluster
+To run this in a an OpenShift custer assuming. First log into the Openshift using the CLI and create the project you want to install into then follow instructions below:
+
+NOTE: Modify `{openshift-project}` to the OpenShift project your using 
+[source,bash,options="nowrap",subs="attributes+"]
+----
+oc import-image {image-name-version} --from={image-registry}{image-prefix}{image-name-version} --confirm
+mvn clean -DskipTests fabric8:deploy -Popenshift -Dfabric8.generator.fromMode=istag -Dfabric8.generator.from={openshift-project}/{image-name-version}
+mvn clean -DskipTests fabric8:resource fabric8:apply -Popenshift
+----
+
+== Running the booster standalone on your machine
+To run this as a standalone project on your local machine:
+[source,bash,options="nowrap",subs="attributes+"]
+----
+mvn clean package
+mvn spring-boot:run
+----
+
