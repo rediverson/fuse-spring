@@ -16,7 +16,7 @@ mvn org.apache.maven.plugins:maven-archetype-plugin:2.4:generate \
   -DarchetypeVersion=2.2.0.fuse-750020-redhat-00002
 ----
 
-NOTE: For official instructions please see the fuse instruction manual.
+NOTE: For official instructions please see the fuse documentation.
 
 == Running on an OpenShift cluster
 To run this in a an OpenShift custer assuming. First log into the Openshift using the CLI and create the project you want to install into then follow instructions below:
